@@ -1,5 +1,5 @@
 <div class="row" style="text-align: center;">
-    <!-- Shool Stats -->
+    <!-- School Stats -->
     <div class="col-md-6">
         <h2 style="text-align: center;">Subscriptions</h2>
         <p class="lead">
@@ -8,5 +8,33 @@
             <br><strong>${{ total_subscriptions * subscription_price }}</strong> revenue this month
         </p>
     </div>
-    <div class="col-md-6></div>
+    <div class="col-md-6" style="margin-top: 80px"></div>
+</div>
+
+<div class="row">
+    <!-- School Info -->
+    <div class="col-md-6">
+        <h2 style="text-align: center;">School Info</h2>
+        <form name="school_data_form" role="form" ng-submit="updateSchoolData(school.name, school.thumbnail.url)" style="margin: auto; width: 50%">
+            <div class="form-group">
+                <label for="school_name">School name</label>
+                <input id="school_name" type="text" class="form-control" placeholder="{{ school.name }}" ng-model="school.name">
+            </div>
+            <div class="form-group">
+                <label for="school_thumb">School thumbnail</label>
+                <div id="school_thumb">
+                    <img ngf-thumbnail="school.thumbnail.url" class="avatar">
+                </div>
+                <br>
+                <button type="button" ngf-select ng-model="school.thumbnail.url" accept="image/*" class="btn btn-default btn-sm">Select new image</button>
+            </div>
+            <button ng-disabled="!school_data_form.$valid" class="btn btn-danger btn-lg" type="submit">Update data</button>
+            <br><br>
+            <!-- success/error messages -->
+            <div id="updateSchoolData_alert" ng-class="updateSchoolData_status" role="alert">
+                <a href="#" class="alert-link">{{ updateSchoolData_message }}</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6"></div>
 </div>

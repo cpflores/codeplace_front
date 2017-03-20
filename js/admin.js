@@ -40,4 +40,37 @@ angular.module('adminMdl', [])
         $scope.total_subscriptions = response.data;
     });
 
+    /* SCHOOL CRUD ACTIONS */
+
+    /* READ */
+    function getSchoolData() {
+        schoolSrv.getSchoolData().then(function successCallback(response) {
+            $scope.school = response.data;
+        });
+    }
+    getSchoolData();
+
+    /* UPDATE */
+    $scope.updateSchoolData = function(name, thumbnail) {
+        Upload.upload({
+            headers: requestHeaders(),
+            url: rails_server_path + '/schools/1.json',
+            method: 'PUT',
+            fields: { 'school[name]': name, 'school[thumbnail]': thumbnail },
+            fileFormDataName: 'school[thumbnail]'
+        }).then(function successCallback(response) {
+            getSchoolData();
+            $scope.updateSchoolData_status = "alert alert-success";
+            $scope.updateSchoolData_message = "School info updated";
+            fadeAlert("#updateSchoolData_alert");
+        }, function errorCallback(error) {
+            $scope.updateSchoolData_status = "alert alert-danger";
+            $scope.updateSchoolData_message = "Unable to update school info";
+            fadeAlert("#updateSchoolData_alert");
+        });
+    }
+
+    function fadeAlert(id) {
+        $(id).fadeTo(3000, 0);
+    }
 }]);
