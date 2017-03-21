@@ -70,6 +70,28 @@ angular.module('adminMdl', [])
         });
     }
 
+    /* COURSE CRUD ACTIONS */
+
+    /* CREATE */
+    $scope.createCourse = function(course_name, course_description, course_thumbnail) {
+        Upload.upload({
+            headers: requestHeaders(),
+            url: rails_server_path + '/courses.json',
+            method: 'POST',
+            fields: { 'course[name]': course_name, 'course[description]': course_description, 'course[thumbnail]': course_thumbnail },
+            fileFormDataName: 'course[thumbnail]'
+        }).then(function successCallback(response) {
+            getAllCourses();
+            $scope.createCourse_status = "alert alert-success";
+            $scope.createCourse_message = "Course was created";
+            fadeAlert("#createCourse_alert");
+        }, function errorCallback(error) {
+            $scope.createCourse_status = "alert alert-danger";
+            $scope.createCourse_message = "Unable to create course";
+            fadeAlert("#createCourse_alert");
+        });
+    }
+
     function fadeAlert(id) {
         $(id).fadeTo(3000, 0);
     }

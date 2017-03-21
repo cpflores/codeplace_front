@@ -8,7 +8,10 @@
             <br><strong>${{ total_subscriptions * subscription_price }}</strong> revenue this month
         </p>
     </div>
-    <div class="col-md-6" style="margin-top: 80px"></div>
+    <div class="col-md-6" style="margin-top: 80px">
+        <!-- Create new Course -->
+        <button type="button" data-toggle="modal" data-target="#create_course_modal" class="btn btn-lg btn-danger">Create a Course</button>
+    </div>
 </div>
 
 <div class="row">
@@ -36,5 +39,6 @@
             </div>
         </form>
     </div>
-    <div class="col-md-6"></div>
+    <div class="col-md-6" style="text-align: center;"></div>
 </div>
+<div ng-include="'views/create_course_modal.html'"></div>
