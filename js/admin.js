@@ -92,6 +92,63 @@ angular.module('adminMdl', [])
         });
     }
 
+    /* READ */
+    getAllCourses();
+
+    function getAllCourses() {
+        schoolSrv.getAllCourses().then(function successCallback(response) {
+            $scope.courses = response.data;
+        });
+    }
+
+    /* CHAPTER CRUD ACTIONS */
+
+    /* CREATE */
+    $scope.createChapter = function(course_id, chapter_name, chapter_description, chapter_video) {
+        $scope.new_chapter_name = '';
+        $scope.new_chapter_description = '';
+        $scope.new_chapter_video = '';
+        var chapter_data = {
+            name: chapter_name,
+            description: chapter_description,
+            video_url: chapter_video
+        }
+        schoolSrv.createChapter(course_id, chapter_data).then(function successCallback(response) {
+            schoolSrv.getAllChapters($scope.course_to_edit.id).then(function successCallback(response) {
+                $scope.course_to_edit.chapters = response.data;
+            });
+        }, function() {
+            $scope.createChapter_status = "alert alert-danger";
+            $scope.createChapter_message = "An error ocurred while creating the chapter";
+            fadeAlert("#createChapter_alert");
+        });
+    }
+
+    /* UPDATE */
+    $scope.editChapters = function(course) {
+        $scope.course_to_edit = course;
+        schoolSrv.getAllChapters($scope.course_to_edit.id).then(function successCallback(response) {
+            $scope.course_to_edit.chapters = response.data;
+        });
+        $scope.edit_chapters_modal = '#edit_chapters_modal';
+    }
+    $scope.updateChapter = function(course_id, chapter_id, chapter_name, chapter_description, chapter_video) {
+        var chapter_data = {
+            name: chapter_name,
+            description: chapter_description,
+            video_url: chapter_video
+        };
+        schoolSrv.updateChapter(course_id, chapter_id, chapter_data).then(function successCallback(response) {
+            $scope.updateChapterData_status = "alert alert-success";
+            $scope.updateChapterData_message = "Chapter info updated";
+            fadeAlert("#updateChapter_alert");
+        }, function errorCallback(error) {
+            $scope.updateChapterData_status = "alert alert-danger";
+            $scope.updateChapterData_message = "An error ocurred while updating the chapter info";
+            fadeAlert("#updateChapter_alert");
+        });
+    }
+
     function fadeAlert(id) {
         $(id).fadeTo(3000, 0);
     }

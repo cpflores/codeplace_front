@@ -39,6 +39,34 @@
             </div>
         </form>
     </div>
-    <div class="col-md-6" style="text-align: center;"></div>
+    <div class="col-md-6" style="text-align: center;">
+      <!-- Published courses -->
+      <h2>Published courses</h2>
+      <br><br>
+      <table style="margin: auto; width: 95%" class="table">
+          <thead>
+              <th style="text-align: center;">Created on</th>
+              <th style="text-align: center;">Course name</th>
+              <th style="text-align: center;">Course description</th>
+              <th style="text-align: center;">Add/Edit Chapters</th>
+              <th style="text-align: center;" colspan="2">Course Options</th>
+          </thead>
+          <tr style="height: 50px" ng-repeat="course in courses | orderBy: 'created_at'">
+              <td>{{ course.created_at | date: 'MMM d, y' }}</td>
+              <td>{{ course.name }}</td>
+              <td>{{ course.description }}</td>
+              <td>
+                  <button type="button" ng-click="editChapters(course)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ edit_chapters_modal }}">Chapters</button>
+              </td>
+              <td>
+                  <button type="button" ng-click="editCourse(course)" class="btn btn-sm btn-primary" data-toggle="modal" data-target="{{ edit_course_modal }}">Edit</button>
+              </td>
+              <td>
+                  <button type="button" ng-click="deleteCourse(course.id)" class="btn btn-sm btn-default">Delete</button>
+              </td>
+          </tr>
+      </table>
+    </div>
 </div>
 <div ng-include="'views/create_course_modal.html'"></div>
+<div ng-include="'views/edit_course_modal.html'"></div>
