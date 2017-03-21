@@ -101,6 +101,38 @@ angular.module('adminMdl', [])
         });
     }
 
+    /* UPDATE */
+    $scope.editCourse = function(course) {
+        $scope.course_to_edit = course;
+        $scope.edit_course_modal = '#edit_course_modal';
+    }
+
+    $scope.updateCourse = function(id, name, description, thumbnail) {
+        Upload.upload({
+            headers: requestHeaders(),
+            url: rails_server_path + '/courses/' + id + '.json',
+            method: 'PATCH',
+            fields: { 'course[name]': name, 'course[description]': description, 'course[thumbnail]': thumbnail },
+            fileFormDataName: 'course[thumbnail]'
+        }).then(function successCallback(response) {
+            getAllCourses();
+            $scope.updateCourse_status = "alert alert-success";
+            $scope.updateCourse_message = "Course was updated";
+            fadeAlert("#updateCourse_alert");
+        }, function errorCallback(error) {
+            $scope.updateCourse_status = "alert alert-danger";
+            $scope.updateCourse_message = "Unable to save changes to course";
+        });
+    }
+
+    /* DELETE */
+    $scope.deleteCourse = function(id) {
+        schoolSrv.deleteCourse(id).then(function successCallback(response) {
+            console.log("Course was deleted.");
+            getAllCourses();
+        })
+    }
+
     /* CHAPTER CRUD ACTIONS */
 
     /* CREATE */
